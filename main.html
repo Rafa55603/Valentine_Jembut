@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Nying</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffc0cb, #4a0000);
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.7;
+    will-change: transform, opacity;
+    animation: float 6s linear forwards;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+.container {
+    text-align: center;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 35px;
+    border-radius: 25px;
+    width: 85%;
+    max-width: 380px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    color: #fff;
+}
+
+#game-button {
+    background-color: #800000;
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+#surat {
+    display: none;
+    animation: fadeIn 0.6s ease;
+}
+
+.pesan {
+    font-size: 1.1rem;
+    color: white;
+    line-height: 1.8;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="audio/lagu.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="main-card">
+    <div id="game-section">
+        <h1>Klik aku mbulll ❤️</h1>
+        <p style="color:#ffe4e1;font-size:14px;">silahkan di klik ndut</p>
+        <br><br>
+        <button id="game-button" onmouseover="pindahTombol()" onclick="bukaSurat()">Klik Di Sini</button>
+    </div>
+
+    <div id="surat">
+        <h1>Happy Valentine Day Baymax! 💖</h1>
+        <p class="pesan">
+            Terima kasih sudah hadir di hidup mbul 🤍<br>
+            Mbul sayang banget sama kamu.<br>
+            Jangan tinggalin aku ya.
+        </p>
+    </div>
+</div>
+
+<script>
+window.addEventListener("click", function() {
+    const audio = document.getElementById("bgMusic");
+    if (audio.paused) {
+        audio.play().catch(() => {});
+    }
+}, { once: true });
+
+let maxParticles = 15;
+let activeParticles = 0;
+
+function createParticles() {
+    if (activeParticles >= maxParticles) return;
+
+    activeParticles++;
+
+    const symbols = ['❤️','✨','💖','🤍'];
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.fontSize = (Math.random()*15 + 12) + 'px';
+    p.style.animationDuration = (Math.random()*2 + 4) + 's';
+
+    document.body.appendChild(p);
+
+    setTimeout(() => {
+        p.remove();
+        activeParticles--;
+    }, 6000);
+}
+
+setInterval(createParticles, 700);
+
+let count = 0;
+function pindahTombol() {
+    if (count < 5) {
+        const btn = document.getElementById('game-button');
+        btn.style.position = 'fixed';
+        btn.style.left = Math.random()*(window.innerWidth-120)+'px';
+        btn.style.top = Math.random()*(window.innerHeight-120)+'px';
+        count++;
+    }
+}
+
+function bukaSurat() {
+    document.getElementById('game-section').style.display='none';
+    document.getElementById('surat').style.display='block';
+}
+</script>
+
+</body>
+</html>
